@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import com.example.recyclerviewwithdatabase.R;
 import com.example.recyclerviewwithdatabase.adapter.UserAdapter;
 import com.example.recyclerviewwithdatabase.entity.User;
+import com.example.recyclerviewwithdatabase.helper.ItemHelper;
 import com.example.recyclerviewwithdatabase.view.fragment.AddUserDialog;
 import com.example.recyclerviewwithdatabase.viewmodel.UserViewModel;
 
@@ -53,8 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
         userList = findViewById(R.id.users_list);
         userList.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserAdapter();
+        adapter = new UserAdapter(model,model.getAllUsers());
         userList.setAdapter(adapter);
+
+        ItemTouchHelper.Callback itemTouchHelper = new ItemHelper(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(itemTouchHelper);
+        touchHelper.attachToRecyclerView(userList);
     }
 
     public void openDialog() {

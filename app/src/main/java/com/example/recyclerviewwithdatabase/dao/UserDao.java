@@ -1,6 +1,7 @@
 package com.example.recyclerviewwithdatabase.dao;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -19,5 +20,8 @@ public interface UserDao {
 
     @Insert
     long insertUser(User user);
+
+    @Delete
+    int deleteUser(User user);
 
 }

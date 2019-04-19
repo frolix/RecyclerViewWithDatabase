@@ -8,27 +8,32 @@ import android.widget.TextView;
 
 import com.example.recyclerviewwithdatabase.R;
 import com.example.recyclerviewwithdatabase.entity.User;
+import com.example.recyclerviewwithdatabase.viewmodel.UserViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> implements ItemTouchHelperAdapter {
     private List<User> users;
+    private UserViewModel userViewModel;
 
 
-    public UserAdapter(){
-         users = new ArrayList<>();
+    public UserAdapter(UserViewModel userViewModel,List<User> users) {
+        this.users = users;
+//        users = new ArrayList<>();
+        this.userViewModel = userViewModel;
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         users.add(user);
-        notifyItemInserted(users.size()-1);
+        notifyItemInserted(users.size() - 1);
     }
 
     @NonNull
     @Override
     public UserHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new UserHolder(LayoutInflater.from(viewGroup.getContext()),viewGroup);
+        return new UserHolder(LayoutInflater.from(viewGroup.getContext()), viewGroup);
     }
 
     @Override
@@ -39,6 +44,28 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
     @Override
     public int getItemCount() {
         return users.size();
+    }
+
+    @Override
+    public boolean onItemMove(int from, int to) {
+        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(users, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(users, i, i - 1);
+            }
+        }
+        notifyItemMoved(from, to);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        userViewModel.deleteUser(users.get(position));
+        users.remove(position);
+        notifyItemRemoved(position);
     }
 
     public class UserHolder extends RecyclerView.ViewHolder {
@@ -63,6 +90,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
             userSurname.setText(user.getSurname());
             userAge.setText(String.valueOf(user.getAge()));
         }
+
 
     }
 }

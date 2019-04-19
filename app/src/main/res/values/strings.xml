@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">RecyclerViewWithDatabase</string>
+    <string name="name">Name</string>
+    <string name="surname">surname</string>
+    <string name="age">age</string>
+</resources>

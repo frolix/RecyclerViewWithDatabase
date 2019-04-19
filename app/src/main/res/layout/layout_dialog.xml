@@ -9,13 +9,15 @@
         android:id="@+id/edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/name" />
+        android:hint="@string/name"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/edit_surname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/surname" />
+        android:hint="@string/surname"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/edit_age"
